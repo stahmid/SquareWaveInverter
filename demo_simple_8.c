@@ -124,27 +124,6 @@ sbit outputRelay at RB4_bit;
 sbit inverterSw at RB5_bit;
 sbit Triac at RB3_bit;
 
-/*
- * ----------------
- * old:
- * ----------------
- *   EN = 1  RB7
- *   RS = 2  RC4
- *   D7 = 3  RC0
- *   D6 = 4  RC1
- *   D5 = 5  RC2
- *   D4 = 6  RC3
- * ----------------
- * new:
- * ----------------
- *   RS = 1  RB7
- *   EN = 2  RC4
- *   D4 = 3  RC0
- *   D5 = 4  RC1
- *   D6 = 5  RC2
- *   D7 = 6  RC3
- */
-
 sbit LCD_RS at RB7_bit;
 sbit LCD_EN at RC4_bit;
 sbit LCD_D4 at RC0_bit;
@@ -266,6 +245,12 @@ void initializePeripherals(){
 
      GIE_bit = 1;
      PEIE_bit = 1;
+}
+
+void initializeLCD(){
+     Lcd_Init();
+     Lcd_Cmd(_LCD_CURSOR_OFF);
+     Lcd_Cmd(_LCD_CLEAR);
 }
 
 void initializePWM(){
@@ -444,6 +429,7 @@ void doChecks(){
             *  Mains initialization
             */
 
+            initializeLCD();
             chargingEnabled = 0;
             
            // Stop PWM
@@ -506,6 +492,8 @@ void doChecks(){
         mainsStarted = 0;
         if (inverterState == inv_normal){
            if (pwmStarted == 0){
+              delay_ms(10);
+              initializeLCD();
               initializePWM();
               pwmStarted = 1;
               outputRelay = 1;
@@ -619,6 +607,7 @@ void main() {
      initializeIO();
      MOSdriveState = drvMOS1;
      pwmStarted = 0;
+     
      mode = mode_inverter;
      acStatus = acLow;
      mainsStarted = 0;
@@ -627,10 +616,6 @@ void main() {
      lcdState = 0;
      lcdCounter = 0;
      batlv = 1;
-
-     LCD_Init();
-     LCD_Cmd(_LCD_CLEAR);
-     LCD_Cmd(_LCD_CURSOR_OFF);
 
      T1CON = 0x31;   // period = 105ms, t1 on
 
@@ -724,7 +709,7 @@ void main() {
            
            if (lcdCounter == t1pr){
               lcdState++;
-              LCD_Cmd(_LCD_CLEAR);
+              initializeLCD();
               chgDot = 0;
               if (lcdState >= maxLCDstates){
                  lcdState = 0;

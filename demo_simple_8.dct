@@ -434,6 +434,7 @@ i2c_stop_
 i2c_stop__bit
 indf
 initializeio
+initializelcd
 initializeperipherals
 initializepwm
 int2double

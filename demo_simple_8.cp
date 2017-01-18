@@ -1,5 +1,5 @@
 #line 1 "D:/Documents/Winter 2016/Kamruzzaman/SquareWaveInverter/demo_simple_8.c"
-#line 8 "D:/Documents/Winter 2016/Kamruzzaman/SquareWaveInverter/demo_simple_8.c"
+#line 7 "D:/Documents/Winter 2016/Kamruzzaman/SquareWaveInverter/demo_simple_8.c"
 typedef volatile unsigned int uint16;
 typedef volatile unsigned char uint8;
 
@@ -62,13 +62,13 @@ const char batlv5[] = {14,31,31,31,31,31,31,31};
 char character, batlv, chlv;
 
 uint8 hundreds, tens, ones;
-#line 122 "D:/Documents/Winter 2016/Kamruzzaman/SquareWaveInverter/demo_simple_8.c"
+#line 121 "D:/Documents/Winter 2016/Kamruzzaman/SquareWaveInverter/demo_simple_8.c"
 sbit MOS1 at RC6_bit;
 sbit MOS2 at RC5_bit;
 sbit outputRelay at RB4_bit;
 sbit inverterSw at RB5_bit;
 sbit Triac at RB3_bit;
-#line 149 "D:/Documents/Winter 2016/Kamruzzaman/SquareWaveInverter/demo_simple_8.c"
+
 sbit LCD_RS at RB7_bit;
 sbit LCD_EN at RC4_bit;
 sbit LCD_D4 at RC0_bit;
@@ -192,6 +192,12 @@ void initializePeripherals(){
  PEIE_bit = 1;
 }
 
+void initializeLCD(){
+ Lcd_Init();
+ Lcd_Cmd(_LCD_CURSOR_OFF);
+ Lcd_Cmd(_LCD_CLEAR);
+}
+
 void initializePWM(){
  T2CON = 5;
  PR2 = 249;
@@ -237,7 +243,7 @@ void initializeIO(){
 }
 
 void getMainsVoltage(){
-#line 327 "D:/Documents/Winter 2016/Kamruzzaman/SquareWaveInverter/demo_simple_8.c"
+#line 311 "D:/Documents/Winter 2016/Kamruzzaman/SquareWaveInverter/demo_simple_8.c"
  ADCON1 = 0;
  ADCON0 = (ADCON0 & 0xC5) | ( 2  << 3);
 
@@ -279,7 +285,7 @@ void getMainsVoltage(){
 }
 
 void getBatteryVoltage(){
-#line 372 "D:/Documents/Winter 2016/Kamruzzaman/SquareWaveInverter/demo_simple_8.c"
+#line 356 "D:/Documents/Winter 2016/Kamruzzaman/SquareWaveInverter/demo_simple_8.c"
  ADCON1 = 0;
 
  vBat = 0;
@@ -352,7 +358,8 @@ void doChecks(){
 
  if (mode ==  1 ){
  if (mainsStarted == 0){
-#line 448 "D:/Documents/Winter 2016/Kamruzzaman/SquareWaveInverter/demo_simple_8.c"
+#line 432 "D:/Documents/Winter 2016/Kamruzzaman/SquareWaveInverter/demo_simple_8.c"
+ initializeLCD();
  chargingEnabled = 0;
 
 
@@ -415,6 +422,8 @@ void doChecks(){
  mainsStarted = 0;
  if (inverterState ==  0 ){
  if (pwmStarted == 0){
+ delay_ms(10);
+ initializeLCD();
  initializePWM();
  pwmStarted = 1;
  outputRelay = 1;
@@ -528,6 +537,7 @@ void main() {
  initializeIO();
  MOSdriveState =  1 ;
  pwmStarted = 0;
+
  mode =  0 ;
  acStatus =  1 ;
  mainsStarted = 0;
@@ -536,10 +546,6 @@ void main() {
  lcdState = 0;
  lcdCounter = 0;
  batlv = 1;
-
- LCD_Init();
- LCD_Cmd(_LCD_CLEAR);
- LCD_Cmd(_LCD_CURSOR_OFF);
 
  T1CON = 0x31;
 
@@ -633,7 +639,7 @@ void main() {
 
  if (lcdCounter == t1pr){
  lcdState++;
- LCD_Cmd(_LCD_CLEAR);
+ initializeLCD();
  chgDot = 0;
  if (lcdState >=  7 ){
  lcdState = 0;
