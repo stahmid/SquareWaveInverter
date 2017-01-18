@@ -29,11 +29,12 @@ Count=0
 [OTHER_FILES]
 Count=0
 [SEARCH_PATH]
-Count=4
+Count=5
 Path0=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\defs\
 Path1=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Uses\P16\
-Path2=D:\Documents\Winter 2016\Kamruzzaman\Summer 2014\Square wave inverter\
-Path3=D:\Summer 2014\Square wave inverter\
+Path2=D:\Documents\Winter 2016\Kamruzzaman\SquareWaveInverter\
+Path3=D:\Documents\Winter 2016\Kamruzzaman\Summer 2014\Square wave inverter\
+Path4=D:\Summer 2014\Square wave inverter\
 [HEADER_PATH]
 Count=0
 [HEADERS]

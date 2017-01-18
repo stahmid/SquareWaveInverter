@@ -1,5 +1,5 @@
-#line 1 "D:/Documents/Winter 2016/Kamruzzaman/Summer 2014/Square wave inverter/demo_simple_8.c"
-#line 8 "D:/Documents/Winter 2016/Kamruzzaman/Summer 2014/Square wave inverter/demo_simple_8.c"
+#line 1 "D:/Documents/Winter 2016/Kamruzzaman/SquareWaveInverter/demo_simple_8.c"
+#line 8 "D:/Documents/Winter 2016/Kamruzzaman/SquareWaveInverter/demo_simple_8.c"
 typedef volatile unsigned int uint16;
 typedef volatile unsigned char uint8;
 
@@ -62,26 +62,26 @@ const char batlv5[] = {14,31,31,31,31,31,31,31};
 char character, batlv, chlv;
 
 uint8 hundreds, tens, ones;
-#line 122 "D:/Documents/Winter 2016/Kamruzzaman/Summer 2014/Square wave inverter/demo_simple_8.c"
+#line 122 "D:/Documents/Winter 2016/Kamruzzaman/SquareWaveInverter/demo_simple_8.c"
 sbit MOS1 at RC6_bit;
 sbit MOS2 at RC5_bit;
 sbit outputRelay at RB4_bit;
 sbit inverterSw at RB5_bit;
 sbit Triac at RB3_bit;
+#line 149 "D:/Documents/Winter 2016/Kamruzzaman/SquareWaveInverter/demo_simple_8.c"
+sbit LCD_RS at RB7_bit;
+sbit LCD_EN at RC4_bit;
+sbit LCD_D4 at RC0_bit;
+sbit LCD_D5 at RC1_bit;
+sbit LCD_D6 at RC2_bit;
+sbit LCD_D7 at RC3_bit;
 
-sbit LCD_RS at RC4_bit;
-sbit LCD_EN at RB7_bit;
-sbit LCD_D4 at RC3_bit;
-sbit LCD_D5 at RC2_bit;
-sbit LCD_D6 at RC1_bit;
-sbit LCD_D7 at RC0_bit;
-
-sbit LCD_RS_Direction at TRISC4_bit;
-sbit LCD_EN_Direction at TRISB7_bit;
-sbit LCD_D4_Direction at TRISC3_bit;
-sbit LCD_D5_Direction at TRISC2_bit;
-sbit LCD_D6_Direction at TRISC1_bit;
-sbit LCD_D7_Direction at TRISC0_bit;
+sbit LCD_RS_Direction at TRISB7_bit;
+sbit LCD_EN_Direction at TRISC4_bit;
+sbit LCD_D4_Direction at TRISC0_bit;
+sbit LCD_D5_Direction at TRISC1_bit;
+sbit LCD_D6_Direction at TRISC2_bit;
+sbit LCD_D7_Direction at TRISC3_bit;
 
 void interrupt(){
  if (TMR2IF_bit){
@@ -237,7 +237,7 @@ void initializeIO(){
 }
 
 void getMainsVoltage(){
-#line 306 "D:/Documents/Winter 2016/Kamruzzaman/Summer 2014/Square wave inverter/demo_simple_8.c"
+#line 327 "D:/Documents/Winter 2016/Kamruzzaman/SquareWaveInverter/demo_simple_8.c"
  ADCON1 = 0;
  ADCON0 = (ADCON0 & 0xC5) | ( 2  << 3);
 
@@ -279,7 +279,7 @@ void getMainsVoltage(){
 }
 
 void getBatteryVoltage(){
-#line 351 "D:/Documents/Winter 2016/Kamruzzaman/Summer 2014/Square wave inverter/demo_simple_8.c"
+#line 372 "D:/Documents/Winter 2016/Kamruzzaman/SquareWaveInverter/demo_simple_8.c"
  ADCON1 = 0;
 
  vBat = 0;
@@ -352,7 +352,7 @@ void doChecks(){
 
  if (mode ==  1 ){
  if (mainsStarted == 0){
-#line 427 "D:/Documents/Winter 2016/Kamruzzaman/Summer 2014/Square wave inverter/demo_simple_8.c"
+#line 448 "D:/Documents/Winter 2016/Kamruzzaman/SquareWaveInverter/demo_simple_8.c"
  chargingEnabled = 0;
 
 
@@ -369,7 +369,7 @@ void doChecks(){
 
  delay_ms(20);
  outputRelay = 0;
- delay_ms(1000);
+ delay_ms(20);
 
  INTEDG_bit = 1;
  INTE_bit = 1;

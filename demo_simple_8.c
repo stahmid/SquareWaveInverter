@@ -1,9 +1,8 @@
-/* Modified 1/9/2017. Issues to be fixed:
+/* Modified 1/18/2017. Issues to be fixed:
  * 1. Display reportedly gets blocky and stops displaying info after a few weeks.
  * 2. Some MOSFETs supposedly blow up when switching to mains mode.
  * 3. Overload doesn't work with prescribed component values for 1000W.
  * 4. Charging current is not settable with pot. Charging current automatically set to ~15A.
- * 5. Need to rewire LCD pins so that they are in sequence. 
  */
 typedef volatile unsigned int uint16;
 typedef volatile unsigned char uint8;
@@ -125,19 +124,40 @@ sbit outputRelay at RB4_bit;
 sbit inverterSw at RB5_bit;
 sbit Triac at RB3_bit;
 
-sbit LCD_RS at RC4_bit;
-sbit LCD_EN at RB7_bit;
-sbit LCD_D4 at RC3_bit;
-sbit LCD_D5 at RC2_bit;
-sbit LCD_D6 at RC1_bit;
-sbit LCD_D7 at RC0_bit;
+/*
+ * ----------------
+ * old:
+ * ----------------
+ *   EN = 1  RB7
+ *   RS = 2  RC4
+ *   D7 = 3  RC0
+ *   D6 = 4  RC1
+ *   D5 = 5  RC2
+ *   D4 = 6  RC3
+ * ----------------
+ * new:
+ * ----------------
+ *   RS = 1  RB7
+ *   EN = 2  RC4
+ *   D4 = 3  RC0
+ *   D5 = 4  RC1
+ *   D6 = 5  RC2
+ *   D7 = 6  RC3
+ */
 
-sbit LCD_RS_Direction at TRISC4_bit;
-sbit LCD_EN_Direction at TRISB7_bit;
-sbit LCD_D4_Direction at TRISC3_bit;
-sbit LCD_D5_Direction at TRISC2_bit;
-sbit LCD_D6_Direction at TRISC1_bit;
-sbit LCD_D7_Direction at TRISC0_bit;
+sbit LCD_RS at RB7_bit;
+sbit LCD_EN at RC4_bit;
+sbit LCD_D4 at RC0_bit;
+sbit LCD_D5 at RC1_bit;
+sbit LCD_D6 at RC2_bit;
+sbit LCD_D7 at RC3_bit;
+
+sbit LCD_RS_Direction at TRISB7_bit;
+sbit LCD_EN_Direction at TRISC4_bit;
+sbit LCD_D4_Direction at TRISC0_bit;
+sbit LCD_D5_Direction at TRISC1_bit;
+sbit LCD_D6_Direction at TRISC2_bit;
+sbit LCD_D7_Direction at TRISC3_bit;
 
 void interrupt(){
      if (TMR2IF_bit){
